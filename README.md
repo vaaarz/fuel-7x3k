@@ -5,7 +5,7 @@ Installable web app (PWA): photo of a fuel receipt → Gemini reads invoice no.,
 No server, no build step. Files: `index.html`, `app.js`, `style.css`, `sw.js`, `manifest.webmanifest`, `icon.svg`.
 
 ## Deploy free (HTTPS is required for camera + install)
-**Cloudflare Pages / Netlify** (easiest): drag-and-drop the `fuelbills` folder onto https://app.netlify.com/drop or Cloudflare Pages → "Upload assets".
+
 **GitHub Pages**: push the folder contents to a repo → Settings → Pages → deploy from `main`.
 
 ## First use on the phone
