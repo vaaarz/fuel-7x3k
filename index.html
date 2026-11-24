@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b5d3b">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Fuel Bills</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LIST -->
+<section id="view-list" class="view">
+  <header class="bar">
+    <h1>Fuel Bills</h1>
+    <div>
+      <button class="icon" id="btn-export" title="Export">⬇</button>
+      <button class="icon" id="btn-settings" title="Settings">⚙</button>
+    </div>
+  </header>
+  <div class="summary">
+    <select id="month-filter"></select>
+    <div class="totals" id="totals"></div>
+  </div>
+  <div id="list" class="list"></div>
+  <div id="empty" class="empty hidden">No receipts yet.<br>Tap <b>Scan</b> to add your first one.</div>
+  <footer class="actions">
+    <label class="btn primary">📷 Scan<input type="file" id="in-camera" accept="image/*" capture="environment" hidden></label>
+    <label class="btn">🖼 Upload<input type="file" id="in-file" accept="image/*" hidden></label>
+  </footer>
+</section>
+
+<!-- EDIT -->
+<section id="view-edit" class="view hidden">
+  <header class="bar">
+    <button class="icon" id="edit-back">←</button>
+    <h1 id="edit-title">Receipt</h1>
+    <span></span>
+  </header>
+  <div class="scroll">
+    <img id="edit-img" alt="Receipt">
+    <div id="edit-status" class="status"></div>
+    <form id="edit-form" autocomplete="off">
+      <label>Receipt / Invoice no.<input name="invoice" type="text" autocapitalize="characters"></label>
+      <label>Date<input name="date" type="date" required></label>
+      <label>Total amount (₹)<input name="amount" type="number" step="0.01" inputmode="decimal" required></label>
+      <div class="row">
+        <label>Volume (litres)<input name="litres" type="number" step="0.01" inputmode="decimal"></label>
+        <label>Rate (₹/litre)<input name="rate" type="number" step="0.01" inputmode="decimal"></label>
+      </div>
+      <label>Vendor / pump (optional)<input name="vendor" type="text"></label>
+      <div id="edit-warn" class="warn hidden"></div>
+      <div class="row">
+        <button type="submit" class="btn primary">Save</button>
+        <button type="button" class="btn" id="edit-rescan">Re-read with AI</button>
+      </div>
+      <button type="button" class="btn danger" id="edit-delete">Delete receipt</button>
+    </form>
+  </div>
+</section>
+
+<!-- EXPORT -->
+<section id="view-export" class="view hidden">
+  <header class="bar">
+    <button class="icon" id="export-back">←</button>
+    <h1>Export for reimbursement</h1>
+    <span></span>
+  </header>
+  <div class="scroll">
+    <div class="row">
+      <label>From<input type="date" id="ex-from"></label>
+      <label>To<input type="date" id="ex-to"></label>
+    </div>
+    <p id="ex-summary" class="muted"></p>
+    <button class="btn primary block" id="ex-zip">Download ZIP (report CSV + receipt photos)</button>
+    <button class="btn block" id="ex-print">Report with photos (print / save as PDF)</button>
+    <button class="btn block" id="ex-csv">Download CSV only</button>
+  </div>
+</section>
+
+<!-- SETTINGS -->
+<section id="view-settings" class="view hidden">
+  <header class="bar">
+    <button class="icon" id="set-back">←</button>
+    <h1>Settings</h1>
+    <span></span>
+  </header>
+  <div class="scroll">
+    <label>Gemini API key<input id="set-key" type="password" autocomplete="off" placeholder="AIza..."></label>
+    <label>Gemini model<input id="set-model" type="text" placeholder="gemini-2.5-flash"></label>
+    <button class="btn primary block" id="set-save">Save</button>
+    <p class="muted">The key is stored only in this browser on this phone, and is sent only to Google's Gemini API. Receipts and photos never leave the phone except for the image sent to Gemini for reading.</p>
+    <p class="muted">Storage: <span id="set-storage">…</span></p>
+  </div>
+</section>
+
+<div id="busy" class="busy hidden"><div class="spin"></div><span id="busy-text">Working…</span></div>
+<div id="toast" class="toast hidden"></div>
+<div id="printArea"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
